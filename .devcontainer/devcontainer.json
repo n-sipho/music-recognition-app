@@ -23,9 +23,9 @@
       ]
     }
   },
-  "mounts": [
-    "source=/Users/sibusiso/Documents/code/hackathons/music-recognition-app,target=/,type=bind,consistency=cached"
-  ],
+  // "mounts": [
+  //   "source=/Users/sibusiso/Documents/code/hackathons/music-recognition-app,target=/,type=bind,consistency=cached"
+  // ],
   // /Users/sibusiso/Documents/code/hackathons/music-recognition-app
   "postCreateCommand": "pip install -r requirements.txt",
   "remoteUser": "vscode"
