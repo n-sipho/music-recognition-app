@@ -35,10 +35,11 @@ Follow these instructions to get the app up and running on your local machine.
     ```bash
     daytona create https://github.com/n-sipho/music-recognition-app
     ```
-        3.	Create a .env file:
-    Configure the following variables in your .env file:
+3.	**Create a .env file:**
+
+    Copy the .env.example file to .env and update the environment variables with your own values.:
       ```bash
-      use the .env.example file as a template
+      cp .env.example .env
       ```
 
 4. **Start the Application**:

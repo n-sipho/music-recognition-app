@@ -4,6 +4,9 @@ import json
 from datetime import datetime
 from acrcloud.recognizer import ACRCloudRecognizer
 from models.acrcloud import ACRCloudResults
+from dotenv import load_dotenv
+
+load_dotenv()
 
 host = os.getenv('ACRCLOUD_HOST')
 access_key = os.getenv('ACRCLOUD_ACCESS_KEY')
