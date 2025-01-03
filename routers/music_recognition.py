@@ -2,10 +2,10 @@ from fastapi import APIRouter, HTTPException, UploadFile, File
 from utils.recognition import identify_music
 # from utils.audio import save_audio_as_wav
 
-router = APIRouter()
+router = APIRouter(prefix='/api/v1', tags=['music-recognition'])
 
 
-@router.post('/v1/music-recognition')
+@router.post('/music-recognition')
 async def music_recognition(audio_file: UploadFile = File(...)):
     try:
         # Read the incoming audio bytes

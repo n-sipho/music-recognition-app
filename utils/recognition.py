@@ -3,7 +3,7 @@ import wave
 import json
 from datetime import datetime
 from acrcloud.recognizer import ACRCloudRecognizer
-from models.acrcloud import ACRCloudResults
+from schemas.acrcloud import ACRCloudResults
 from dotenv import load_dotenv
 
 load_dotenv()
