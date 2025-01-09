@@ -12,8 +12,8 @@ async def music_recognition(audio_file: UploadFile = File(...)):
         audio_bytes = await audio_file.read()
 
         song_resp = await identify_music(audio_bytes)
-        if song_resp.status.code == 0:
-            pass
+        # if song_resp.status.code == 0:
+        #     pass
         
         return song_resp
     except Exception as e:

@@ -1,0 +1,1 @@
+export const apiBaseUrl = "https://music-recognition-api.fly.dev/api/v1";

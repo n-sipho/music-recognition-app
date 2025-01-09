@@ -1,24 +1,24 @@
-from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from dotenv import load_dotenv
-import os
+# from sqlalchemy import create_engine, Column, Integer, String
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy.orm import sessionmaker
+# from dotenv import load_dotenv
+# import os
 
-load_dotenv()
+# load_dotenv()
 
-DATABASE_URI = os.getenv('DATABASE_URL')
-engine = create_engine(DATABASE_URI)
+# DATABASE_URI = os.getenv('DATABASE_URL')
+# engine = create_engine(DATABASE_URI)
 
-Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
-# session = Session()
+# Session = sessionmaker(bind=engine, autocommit=False, autoflush=False)
+# # session = Session()
 
-Base = declarative_base()
+# Base = declarative_base()
 
 
 
-def db_session():
-    db = Session()
-    try:
-        yield db
-    finally:
-        db.close()
+# def db_session():
+#     db = Session()
+#     try:
+#         yield db
+#     finally:
+#         db.close()

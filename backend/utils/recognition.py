@@ -25,13 +25,13 @@ config = {
 re = ACRCloudRecognizer(config)
 
 
-async def identify_music(audio_bytes: []) -> ACRCloudResults:
+async def identify_music(audio_bytes: []):
     try:
         resp = re.recognize_audio_buffer(audio_bytes, 0)
         data = json.loads(resp)
 
         # # Parse the response into the acrcloud response Pydantic model
-        song_recognition_resp = ACRCloudResults.parse_obj(data)
-        return song_recognition_resp
+        # song_recognition_resp = ACRCloudResults.parse_obj(data)
+        return data
     except Exception as e:
         return {"error": f"An error occurred: {str(e)}"}
