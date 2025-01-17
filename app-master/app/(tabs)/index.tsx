@@ -2,54 +2,53 @@ import { View, StyleSheet, DeviceEventEmitter } from "react-native";
 import { Button } from "react-native-paper";
 import { useEffect, useState } from 'react';
 import { Audio } from 'expo-av';
-import * as FileSystem from 'expo-file-system';
-import { apiBaseUrl } from "@/constants/ApiBaseUrl";
+// import * as FileSystem from 'expo-file-system';
+// import { apiBaseUrl } from "@/constants/ApiBaseUrl";
 import MusicRecognition from "@/specs/MusicRecognition";
 import Config from 'react-native-config';
 
-// const LeftContent = (props: any) => <Avatar.Icon {...props} icon="folder" />;
 const host = Config.ACRCLOUD_HOST as string;
 const accessKey = Config.ACRCLOUD_ACCESS_KEY as string;
 const accessSecret = Config.ACRCLOUD_ACCESS_SECRET as string;
 
 MusicRecognition
 const Index = () => {
-  const [recording, setRecording] = useState();
+  const [recording, setRecording] = useState<Boolean>(false);
   const [permissionResponse, requestPermission] = Audio.usePermissions();
   const [recognitionData, setRecognitionData] = useState<RecognitionResult | null>(null);
 
-  const sendAudio = async (uri) => {
-    try {
-      console.log('Sending audio for recognition');
+  // const sendAudio = async (uri) => {
+  //   try {
+  //     console.log('Sending audio for recognition');
 
-      const info = await FileSystem.getInfoAsync(uri);
-      const audioData = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
+  //     const info = await FileSystem.getInfoAsync(uri);
+  //     const audioData = await FileSystem.readAsStringAsync(uri, { encoding: FileSystem.EncodingType.Base64 });
 
-      const formData = new FormData();
-      formData.append('audio_file', {
-        uri,
-        name: info.uri.split('/').pop(),
-        type: 'audio/mpeg', // Adjust if your recording is in a different format
-      });
+  //     const formData = new FormData();
+  //     formData.append('audio_file', {
+  //       uri,
+  //       name: info.uri.split('/').pop(),
+  //       type: 'audio/mpeg', // Adjust if your recording is in a different format
+  //     });
 
-      const response = await fetch(`${apiBaseUrl}/api/v1/music-recognition`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+  //     const response = await fetch(`${apiBaseUrl}/api/v1/music-recognition`, {
+  //       method: 'POST',
+  //       body: formData,
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! status: ${response.status}`);
+  //     }
 
-      const data = await response.json();
-      console.log('Audio sent successfully:', data);
-    } catch (err) {
-      console.error('Failed to send audio', err);
-    }
-  };
+  //     const data = await response.json();
+  //     console.log('Audio sent successfully:', data);
+  //   } catch (err) {
+  //     console.error('Failed to send audio', err);
+  //   }
+  // };
 
   async function startRecording() {
     try {
@@ -68,6 +67,7 @@ const Index = () => {
       // console.log('Recording started');
       await MusicRecognition.startRecognition().then(res => {
         console.log(res);
+        setRecording(true);
       }).catch(err => {
         console.log(err);
       });
@@ -90,6 +90,7 @@ const Index = () => {
     // sendAudio(uri);
     await MusicRecognition.stopRecognition().then(res => {
       console.log(res);
+      setRecording(false);
     }).catch(err => {
       console.log(err);
     });
