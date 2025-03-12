@@ -28,7 +28,7 @@ const CombinedDarkTheme = merge(DarkTheme, customDarkTheme);
 
 const RootLayout = () => {
   const colorScheme = useColorScheme();
-  const paperTheme = colorScheme === "dark" ? CombinedDarkTheme : CombinedLightTheme;
+  const paperTheme = colorScheme === "light" ? CombinedDarkTheme : CombinedLightTheme;
 
   return (
     <PaperProvider theme={paperTheme}>

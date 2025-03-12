@@ -6,12 +6,13 @@ import { Audio } from 'expo-av';
 // import { apiBaseUrl } from "@/constants/ApiBaseUrl";
 import MusicRecognition from "@/specs/MusicRecognition";
 import Config from 'react-native-config';
+import RecognitionButton from "@/components/RecognitionButton";
 
 const host = Config.ACRCLOUD_HOST as string;
 const accessKey = Config.ACRCLOUD_ACCESS_KEY as string;
 const accessSecret = Config.ACRCLOUD_ACCESS_SECRET as string;
 
-MusicRecognition
+// MusicRecognition
 const Index = () => {
   const [recording, setRecording] = useState<Boolean>(false);
   const [permissionResponse, requestPermission] = Audio.usePermissions();
@@ -52,19 +53,10 @@ const Index = () => {
 
   async function startRecording() {
     try {
-      // if (permissionResponse.status !== 'granted') {
-      //   console.log('Requesting permission..');
-      //   await requestPermission();
-      // }
-      // await Audio.setAudioModeAsync({
-      //   allowsRecordingIOS: true,
-      //   playsInSilentModeIOS: true,
-      // });
-
-      // console.log('Starting recording..');
-      // const { recording } = await Audio.Recording.createAsync(Audio.RecordingOptionsPresets.HIGH_QUALITY);
-      // setRecording(recording);
-      // console.log('Recording started');
+      if (permissionResponse.status !== 'granted') {
+        console.log('Requesting permission..');
+        await requestPermission();
+      }
       await MusicRecognition.startRecognition().then(res => {
         console.log(res);
         setRecording(true);
@@ -77,17 +69,6 @@ const Index = () => {
   };
 
   async function stopRecording() {
-    // console.log('Stopping recording..');
-    // setRecording(undefined);
-    // await recording.stopAndUnloadAsync();
-    // await Audio.setAudioModeAsync(
-    //   {
-    //     allowsRecordingIOS: false,
-    //   }
-    // );
-    // const uri = recording.getURI();
-    // console.log('Recording stopped and stored at', uri);
-    // sendAudio(uri);
     await MusicRecognition.stopRecognition().then(res => {
       console.log(res);
       setRecording(false);
@@ -107,9 +88,14 @@ const Index = () => {
       'onRecognitionResult',
       (result: string) => {
         try {
-          // Parse the result JSON string
-          const parsedResult: { result: string } = JSON.parse(result);
-          const recognitionResult: RecognitionResult = JSON.parse(parsedResult.result);
+          stopRecording();
+          // Ensure `result` is a valid JSON string
+          const parsedData = typeof result === 'string' ? JSON.parse(result) : result;
+          // Parse the `result` field only if it's a string
+          const recognitionResult: RecognitionResult = typeof parsedData.result === 'string'
+            ? JSON.parse(parsedData.result)
+            : parsedData.result;
+
           setRecognitionData(recognitionResult);
           console.log('Recognition Data:', recognitionResult);
         } catch (error) {
@@ -125,17 +111,19 @@ const Index = () => {
 
   return (
     <View style={styles.container}>
-      <Button mode="contained" onPress={recording ? stopRecording : startRecording}>
+      <RecognitionButton />
+      {/* <Button mode="contained" onPress={recording ? stopRecording : startRecording}>
         {recording ? 'Stop Recording' : 'Start Recording'}
-      </Button>
+      </Button> */}
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    // backgroundColor: '#ecf0f1',
+    backgroundColor: "rgba(59, 103, 246, 0.24)",
     alignItems: "center",
     // padding: 10,
   },
